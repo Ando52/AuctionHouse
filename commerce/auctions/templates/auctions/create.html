@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h1 class="page-title">What would you like to sell today? {{ user.username }}</h1>
+
+    <form id="input-box" action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <div id="input-container">
+            <input type="hidden" name="user" value="{{ user.username }}">
+
+            <div class="input-field">
+                <input name="product" type="text" placeholder="Product Name">
+            </div>
+            
+            <div class="input-field">
+                <input name="price" type="text" placeholder="Price">
+            </div>
+
+            <div class="input-field">
+                <input name="image" type="url" placeholder="Url of Image">
+            </div>
+
+            <div class="input-field">
+                <input name="category" type="text" placeholder="category">
+            </div>
+         
+            <div>
+                <textarea name="description" placeholder="Item Description..."></textarea>
+            </div>
+
+            <div id="create-listing-button">
+                <input type="submit">
+            </div>
+
+        </div>
+    </form>
+{% endblock %}

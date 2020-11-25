@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if listings %}
+        <h2 class="page-title">Here is your wishlist </h2>
+    {% endif %}
+
+    {% for listing in listings %}
+
+    <a class="listing-link" href="listing/{{ listing.id }}">
+
+        <div class="listing-container">
+            <div class="listing-image">
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" alt="{{ list.name }}">
+                {% else %}
+                    <p>No Image</p>
+                {% endif %}
+            </div>
+
+            <div class="listing-text">
+                <h3 class="listing-header">Product: {{ listing.product }}</h3>
+                <h6 class="listing-price">Price: {{ listing.price }}</h6>
+                <p class="listing-description">{{ listing.description|linebreaksbr }}</p>
+            </div>
+
+        </div>
+    </a>
+
+    {% empty %}
+        <h3>You don't have any lisitng, you sbould go wishlist some.</h3>
+
+    {% endfor %}
+{% endblock %}

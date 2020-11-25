@@ -1,0 +1,132 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="page-title">
+    <h1> {{ listing.product }} </h1>
+</div> 
+<div id="listing-image-container">
+    {% if listing.image_url %}
+        <img id="listing-image" src="{{ listing.image_url }}" alt="{{ listing.product }}">
+    {% else %}
+        <p> No Image </p>    
+    {% endif %}
+</div>
+
+<div id="product-text">
+    <h2>Price: ${{ listing.price }}</h2>
+
+    {% if listing.num_bids %}
+        <h3>Highest Bid: {{ listing.top_bid }}</h3>
+        <h3>Total Bid(s) made: {{ listing.num_bids }}</h3>
+    {% else %}
+        <h3>No bids</h3>
+    {% endif %}
+
+
+    <p>Description</p>
+    <p>{{ description|linebreaksbr }}</p>
+
+    <p>Details</p>
+    <ul>
+        <li>Posted by {{ listing.author.username }}</li>
+        <li>Category: {{ listing.category }}</li>
+        <li>Date Made: {{ listing.date }}</li>
+    </ul>
+
+    {% if user.is_authenticated %} <!--Checks to see if user is signed in-->
+
+        {% if user.username == winning_bid.user.username and listing.active == 0 %} <!--Checks to see if the user is winner-->
+            <h5>You are the winnner of listing contrats!!!</h5>
+
+        {% elif user.username == listing.author.username %} <!--checks ot see if the user signed in is the author of listing-->
+            {% if listing.active %}
+                <form method="post" action="{% url 'listing' listing.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="close" name="close">
+                </form>
+            {% else %}
+
+
+                {% if winning_bid.user.username %}
+
+                    <h5>the listing has been closed, {{ winning_bid.user.username }} has won the bid </h5>
+                {% else %}
+                    <h5>The listing has been closed no one has won it.</h5> 
+                {% endif %}
+
+            {% endif %}
+
+        {% else %} <!--if signed in user is not the author of the listing-->
+            
+            {% if listing.active %}
+            <div id="test">
+                <form id="wishlist-form" method="post" action="{% url 'listing' listing.id %}">
+                    <input type="hidden" type="text" value="{{ user.id }}" name="current_user_id">
+                    <input type="hidden" type="text" value="{{ listing.id }}" name="listing">
+                    {% csrf_token %}
+                    <input id="wishlist" type="submit" value="Wishlist" name="wishlist">
+                </form>
+
+                <form id="bid-form" method="post" action="{% url 'listing' listing.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" type="text" value="{{ user.id }}" name="current_user_id">
+                    <input id="bid-button" type="submit" value="bid" name="bid">
+                    <input id="bid-field" type="text" name="bid_amount">
+                </form>
+
+            </div>
+            <br>
+            {% else %}
+
+                {% if winning_bid.user.username %}
+
+                    <h5>the listing has been closed, {{ winning_bid.user.username }} has won the bid </h5>
+                {% else %}
+                    <h5>The listing has been closed no one has won it.</h5> 
+                {% endif %}
+                
+            {% endif %}
+        
+        {% endif %}
+
+        
+
+
+        
+        <p> {{ message }} </p>
+
+        <!--Only need to be logged in to use comments-->
+        <div id="comment_container">
+            <form method="post" action="{% url 'listing' listing.id %}">
+                {% csrf_token %}
+                <input type="hidden" type="text" value="{{ user.id }}" name="current_user_id">
+                <textarea name="comment_text" placeholder="Your Comment"></textarea><br>
+                <input type="submit" name="comment" value="comment">
+            </form>
+        </div> 
+    
+    {% else %}
+    
+    <!--For users that are currently not signed in-->
+    {% if listing.active == 0 %}
+        <h5>the listing has been closed {{ winning_bid.user.username }} has won the bid</h5>
+    {% endif %}
+
+{% endif %}
+    
+</div>
+
+{% for comment in comments reversed %}
+<div id="comments_display">
+    <div>
+        <h6 class="page-title">{{ comment.commenter.username }} created: {{ comment.date }}</h6>
+    </div>
+    <p id="comment"> {{ comment.comment|linebreaksbr }}</p>
+</div>
+
+{% endfor %}
+
+
+
+{% endblock %}

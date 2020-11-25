@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+ <h2 class="page-title">Select a category</h2>
+
+ <ul class="category-nav">
+ {% for category in categories %}
+    <li class="category-nav-item">
+        <form method="post">
+            {% csrf_token %}
+            <!--<li><a method="post" href="{% url 'categories' %}" value="{{ category }}" name="category_link">{{ category }}</a></li>-->
+            <input class="nav-button" type="submit" value="{{ category }}" name="category_link">
+        <form>
+    </li>
+ {% endfor %}
+</ul>
+
+{% for listing in listings %}
+    <a class="listing-link" href="{% url 'listing' listing.id %}">
+
+        <div class="listing-container">
+            <div class="listing-image">
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" alt="{{ list.name }}">
+                {% else %}
+                    <p>No Image</p>
+                {% endif %}
+            </div>
+
+            <div class="listing-text">
+                <h3 class="listing-header">Product: {{ listing.product }}</h3>
+                <h6 class="listing-price">Price: {{ listing.price }}</h6>
+                <p class="listing-description">{{ listing.description|linebreaksbr }}</p>
+            </div>
+
+        </div>
+    </a>
+
+{% empty %}
+    <p id="listing_message">No listings currently displayed</p>
+
+{% endfor %}
+{% endblock %}
