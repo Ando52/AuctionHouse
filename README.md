@@ -31,7 +31,7 @@ The app is an auction house where users can signup to place bids on products or 
 
 <img src="auctionCaptures/Category.png" width="70%"/>
 - Although this page is functioning fine, I do belive from a GUI aspect could use some work.
-- One thing that could have beend one was to create a set list of static categories. Where the user could choose from when creating a listing.
+- One thing that could have been done was to create a set list of static categories. Where the user could choose from when creating a listing.
 
 ## Credit
 This project was created following content from the Havard cs50 Web Dev course. Here is a [link](https://www.youtube.com/watch?v=zFZrkCIc2Oc&t=0s) to be the first lecture where you can find more information of about the course.
