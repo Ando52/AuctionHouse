@@ -34,7 +34,7 @@ The app is an auction house where users can sign up to place bids on products or
 - One thing that could have been done was to create a set list of static categories. Where the user could choose from when creating a listing.
 
 ## Credit
-This project was created following content from the Havard cs50 Web Dev course. Here is a [link](https://www.youtube.com/watch?v=zFZrkCIc2Oc&t=0s) to be the first lecture where you can find more information about the course.
+This project was created following content from the Havard cs50 Web Dev course. Here is a [link](https://www.youtube.com/watch?v=zFZrkCIc2Oc&t) to be the first lecture where you can find more information about the course.
 
 
 
